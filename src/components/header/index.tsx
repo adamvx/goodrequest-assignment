@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
-import { Wrapper } from "./wrapper";
+import { Wrapper } from "../wrapper";
 
 interface Props {}
 
@@ -15,11 +15,6 @@ const StyledHeader = styled.header`
 	.social-icon {
 		display: flex;
 		color: #9f9f9f;
-		text-decoration: none;
-
-		&:hover {
-			color: #cd8b65;
-		}
 	}
 `;
 
