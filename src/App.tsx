@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { api } from "./api";
 import { Button } from "./components/button";
 import { Dropdown } from "./components/dropdown";
 import { Footer } from "./components/footer";
@@ -23,10 +23,8 @@ const App: React.FC = () => {
 	const [selectedPrice, setSelectedPrice] = useState<IPrice>();
 
 	useEffect(() => {
-		axios
-			.get<{ shelters: IShelter[] }>(
-				"https://frontend-assignment-api.goodrequest.dev/api/v1/shelters"
-			)
+		api.v1
+			.get<{ shelters: IShelter[] }>("shelters")
 			.then((res) => setShelters(res.data.shelters))
 			.catch(console.log);
 	});
