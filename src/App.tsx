@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Button } from "./components/button";
 import { Dropdown } from "./components/dropdown";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
@@ -35,24 +36,49 @@ const App: React.FC = () => {
 			<Header />
 			<Wrapper>
 				<Main>
-					<div style={{ flex: 1 }}>
+					<div
+						style={{
+							flex: 1,
+							display: "flex",
+							flexDirection: "column",
+							gap: 32,
+						}}
+					>
 						<Stepper stepCount={3} activeStep={0} />
 						<h1>Vyberte si možnosť, ako chcete pomôcť</h1>
 						<ShelterSelector onSelect={() => {}} />
-						<h5>O projekte</h5>
-						<Dropdown
-							data={shelters}
-							onSelect={(val) => setSelectedValue(val)}
-							selectedValue={selectedValue}
-							placeholder={"Vyberte útulok zo zoznamu"}
-						/>
-						<h5>Suma, ktorou chcem prispieť</h5>
-						<PriceSelect
-							onPriceSelect={(val) => setSelectedPrice(val)}
-							selectedPrice={selectedPrice}
-						/>
+						<div>
+							<h5>O projekte</h5>
+							<Dropdown
+								data={shelters}
+								onSelect={(val) => setSelectedValue(val)}
+								selectedValue={selectedValue}
+								placeholder={"Vyberte útulok zo zoznamu"}
+							/>
+						</div>
+						<div>
+							<h5>Suma, ktorou chcem prispieť</h5>
+							<PriceSelect
+								onPriceSelect={(val) => setSelectedPrice(val)}
+								selectedPrice={selectedPrice}
+							/>
+						</div>
+
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "flex-end",
+								marginTop: 64,
+							}}
+						>
+							<Button title="Pokračovať" />
+						</div>
 					</div>
-					<img src="/dogmask.png" alt="Dog drinking water" />
+					<img
+						src="/dogmask.png"
+						style={{ objectFit: "contain" }}
+						alt="Dog drinking water"
+					/>
 				</Main>
 			</Wrapper>
 
