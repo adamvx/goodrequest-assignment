@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { Dropdown } from "./components/dropdown";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
+import { PriceSelect } from "./components/price-select";
 import { ShelterSelector } from "./components/shelter-selector";
 import { Stepper } from "./components/stepper";
 import { Wrapper } from "./components/wrapper";
-import { IShelter } from "./types";
+import { IPrice, IShelter } from "./types";
 
 const Main = styled.main`
 	padding: 64px;
@@ -18,6 +19,7 @@ const Main = styled.main`
 const App: React.FC = () => {
 	const [shelters, setShelters] = useState<IShelter[]>([]);
 	const [selectedValue, setSelectedValue] = useState<IShelter>();
+	const [selectedPrice, setSelectedPrice] = useState<IPrice>();
 
 	useEffect(() => {
 		axios
@@ -43,6 +45,11 @@ const App: React.FC = () => {
 							onSelect={(val) => setSelectedValue(val)}
 							selectedValue={selectedValue}
 							placeholder={"Vyberte útulok zo zoznamu"}
+						/>
+						<h5>Suma, ktorou chcem prispieť</h5>
+						<PriceSelect
+							onPriceSelect={(val) => setSelectedPrice(val)}
+							selectedPrice={selectedPrice}
 						/>
 					</div>
 					<img src="/dogmask.png" alt="Dog drinking water" />

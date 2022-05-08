@@ -7,3 +7,9 @@ export interface IShelter {
 	id: number;
 	name: string;
 }
+
+export interface IPrice {
+	id: number;
+	type: "static" | "custom";
+	price?: number;
+}
