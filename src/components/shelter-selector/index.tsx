@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Paw, Wallet } from "../../Icons";
+import { setHelpType } from "../../redux/slices/app";
 import { EHelpType } from "../../types";
 
-interface Props {
-	onSelect: (type: EHelpType) => void;
-}
+interface Props {}
 
 const Container = styled.div`
 	display: flex;
@@ -48,12 +48,14 @@ const IconHolder = styled.div`
 `;
 
 export const ShelterSelector: React.FC<Props> = () => {
-	const [selectedType, setSelectedType] = useState(EHelpType.NADATION);
+	const { helpType } = useAppSelector((state) => state.app);
+	const dispatch = useAppDispatch();
+
 	return (
 		<Container>
 			<Item
-				selected={selectedType === EHelpType.SHELTER}
-				onClick={() => setSelectedType(EHelpType.SHELTER)}
+				selected={helpType === EHelpType.SHELTER}
+				onClick={() => dispatch(setHelpType(EHelpType.SHELTER))}
 			>
 				<IconHolder>
 					<Wallet width={32} height={32} className="icon" />
@@ -61,8 +63,8 @@ export const ShelterSelector: React.FC<Props> = () => {
 				<span>Chcem finančne prispieť konkrétnemu útulku</span>
 			</Item>
 			<Item
-				selected={selectedType === EHelpType.NADATION}
-				onClick={() => setSelectedType(EHelpType.NADATION)}
+				selected={helpType === EHelpType.NADATION}
+				onClick={() => dispatch(setHelpType(EHelpType.NADATION))}
 			>
 				<IconHolder>
 					<Paw width={32} height={32} className="icon" />

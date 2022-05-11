@@ -92,36 +92,39 @@ export const Dropdown = <T extends IDropdownData>({
 	const toggle = () => setIsOpen((val) => !val);
 
 	return (
-		<Container onClick={toggle}>
-			<DropdownContainer>
-				<Content>
-					<Title>Útulok</Title>
-					<Value>{selectedValue?.name || placeholder}</Value>
-				</Content>
-				<FaChevronDown
-					color="#9f9f9f"
-					style={{
-						transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-						transition: "transform 200ms",
-					}}
-				/>
-			</DropdownContainer>
-			<CSSTransition
-				in={isOpen}
-				timeout={200}
-				classNames="dropdown"
-				unmountOnExit
-			>
-				<DropdownListContainer>
-					<DropdownListContent>
-						{data.map((item, key) => (
-							<DropdownListItem onClick={() => onSelect(item)} key={key}>
-								{item.name}
-							</DropdownListItem>
-						))}
-					</DropdownListContent>
-				</DropdownListContainer>
-			</CSSTransition>
-		</Container>
+		<div>
+			<h5>O projekte</h5>
+			<Container onClick={toggle}>
+				<DropdownContainer>
+					<Content>
+						<Title>Útulok</Title>
+						<Value>{selectedValue?.name || placeholder}</Value>
+					</Content>
+					<FaChevronDown
+						color="#9f9f9f"
+						style={{
+							transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+							transition: "transform 200ms",
+						}}
+					/>
+				</DropdownContainer>
+				<CSSTransition
+					in={isOpen}
+					timeout={200}
+					classNames="dropdown"
+					unmountOnExit
+				>
+					<DropdownListContainer>
+						<DropdownListContent>
+							{data.map((item, key) => (
+								<DropdownListItem onClick={() => onSelect(item)} key={key}>
+									{item.name}
+								</DropdownListItem>
+							))}
+						</DropdownListContent>
+					</DropdownListContainer>
+				</CSSTransition>
+			</Container>
+		</div>
 	);
 };

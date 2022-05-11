@@ -70,20 +70,23 @@ export const PriceSelect: React.FC<Props> = ({
 	};
 
 	return (
-		<Container>
-			{prices.map((price) => (
-				<Tag
-					selected={selectedPrice?.id === price.id}
-					onClick={() => onPriceSelect(price)}
-				>
-					<Price
-						suppressContentEditableWarning
-						contentEditable={price.type === "custom"}
-						onKeyDown={onKeyDown}
-					>{`${price.price || ""}`}</Price>
-					{"€"}
-				</Tag>
-			))}
-		</Container>
+		<div>
+			<h5>Suma, ktorou chcem prispieť</h5>
+			<Container>
+				{prices.map((price) => (
+					<Tag
+						selected={selectedPrice?.id === price.id}
+						onClick={() => onPriceSelect(price)}
+					>
+						<Price
+							suppressContentEditableWarning
+							contentEditable={price.type === "custom"}
+							onKeyDown={onKeyDown}
+						>{`${price.price || ""}`}</Price>
+						{"€"}
+					</Tag>
+				))}
+			</Container>
+		</div>
 	);
 };

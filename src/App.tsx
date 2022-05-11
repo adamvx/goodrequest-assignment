@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { api } from "./api";
 import { Button } from "./components/button";
-import { Dropdown } from "./components/dropdown";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
-import { PriceSelect } from "./components/price-select";
-import { ShelterSelector } from "./components/shelter-selector";
 import { Stepper } from "./components/stepper";
+import { FirstStep } from "./components/steps/first";
 import { Wrapper } from "./components/wrapper";
-import { IPrice, IShelter } from "./types";
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
+import { nextStep } from "./redux/slices/app";
+import { EHelpType, IShelter } from "./types";
 
 const Main = styled.main`
 	padding: 64px;
@@ -17,15 +17,42 @@ const Main = styled.main`
 	gap: 64px;
 `;
 
+const Content = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+`;
+
+const Buttons = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin-top: 64px;
+`;
+
 const App: React.FC = () => {
-	const [shelters, setShelters] = useState<IShelter[]>([]);
-	const [selectedValue, setSelectedValue] = useState<IShelter>();
-	const [selectedPrice, setSelectedPrice] = useState<IPrice>();
+	const [allShelters, setAllShelters] = useState<IShelter[]>([]);
+	const dispatch = useAppDispatch();
+	const activeStep = useAppSelector((state) => state.app.currentStep);
+	const canGoNext = useAppSelector(({ app }) => {
+		if (app.currentStep === 0) {
+			return (
+				!!app.selectedPrice &&
+				(app.helpType === EHelpType.SHELTER ? !!app.selectedShelter : true)
+			);
+		} else if (app.currentStep === 1) {
+			return true;
+		} else if (app.currentStep === 2) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	const canGoBack = useAppSelector((state) => state.app.currentStep > 0);
 
 	useEffect(() => {
 		api.v1
 			.get<{ shelters: IShelter[] }>("shelters")
-			.then((res) => setShelters(res.data.shelters))
+			.then((res) => setAllShelters(res.data.shelters))
 			.catch(console.log);
 	});
 
@@ -34,44 +61,19 @@ const App: React.FC = () => {
 			<Header />
 			<Wrapper>
 				<Main>
-					<div
-						style={{
-							flex: 1,
-							display: "flex",
-							flexDirection: "column",
-							gap: 32,
-						}}
-					>
-						<Stepper stepCount={3} activeStep={0} />
-						<h1>Vyberte si možnosť, ako chcete pomôcť</h1>
-						<ShelterSelector onSelect={() => {}} />
-						<div>
-							<h5>O projekte</h5>
-							<Dropdown
-								data={shelters}
-								onSelect={(val) => setSelectedValue(val)}
-								selectedValue={selectedValue}
-								placeholder={"Vyberte útulok zo zoznamu"}
+					<Content>
+						<Stepper stepCount={3} activeStep={activeStep} />
+						<FirstStep allShelters={allShelters} />
+						<Buttons>
+							{canGoBack ? <Button type="secondary" title="Späť" /> : <div />}
+							<Button
+								disabled={!canGoNext}
+								type="primary"
+								title="Pokračovať"
+								onClick={() => dispatch(nextStep({}))}
 							/>
-						</div>
-						<div>
-							<h5>Suma, ktorou chcem prispieť</h5>
-							<PriceSelect
-								onPriceSelect={(val) => setSelectedPrice(val)}
-								selectedPrice={selectedPrice}
-							/>
-						</div>
-
-						<div
-							style={{
-								display: "flex",
-								justifyContent: "flex-end",
-								marginTop: 64,
-							}}
-						>
-							<Button title="Pokračovať" />
-						</div>
-					</div>
+						</Buttons>
+					</Content>
 					<img
 						src="/dogmask.png"
 						style={{ objectFit: "contain" }}
@@ -79,8 +81,7 @@ const App: React.FC = () => {
 					/>
 				</Main>
 			</Wrapper>
-
-			<Footer></Footer>
+			<Footer />
 		</div>
 	);
 };
