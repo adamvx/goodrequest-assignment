@@ -20,3 +20,12 @@ export interface IUser {
 	email?: string;
 	phone?: string;
 }
+
+export interface IApiPostResponse {
+	messages: IApiPostMessage[];
+}
+
+export interface IApiPostMessage {
+	type: "SUCCESS" | "ERROR";
+	message: string;
+}

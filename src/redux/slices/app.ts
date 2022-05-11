@@ -11,7 +11,7 @@ interface AppState {
 	selectedShelter?: IShelter;
 	selectedPrice?: IPrice;
 	user?: IUser;
-	term?: boolean;
+	terms?: boolean;
 }
 
 export const appSlice = createSlice<AppState, SliceCaseReducers<AppState>>({
@@ -44,7 +44,7 @@ export const appSlice = createSlice<AppState, SliceCaseReducers<AppState>>({
 			state.user = action.payload;
 		},
 		setTerms: (state, action: PayloadAction<boolean>) => {
-			state.term = action.payload;
+			state.terms = action.payload;
 		},
 	},
 });
@@ -56,6 +56,7 @@ export const {
 	setHelpType,
 	setPrice,
 	setUser,
+	setTerms,
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;
