@@ -91,7 +91,7 @@ const TitleContainer = styled.div`
 `;
 
 const NotRequiredLabel = styled.span`
-	font-size: 14;
+	font-size: 14px;
 	font-weight: 800;
 	color: #2f2f2f;
 `;
