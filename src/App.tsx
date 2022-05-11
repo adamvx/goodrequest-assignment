@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { api } from "./api";
-import { Button } from "./components/button";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
 import { Stepper } from "./components/stepper";
 import { FirstStep } from "./components/steps/first";
+import { SecondStep } from "./components/steps/second";
+import { ThirdStep } from "./components/steps/third";
 import { Wrapper } from "./components/wrapper";
-import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import { nextStep } from "./redux/slices/app";
-import { EHelpType, IShelter } from "./types";
+import { useAppSelector } from "./hooks/redux";
+import { IShelter } from "./types";
 
 const Main = styled.main`
 	padding: 64px;
@@ -18,36 +18,15 @@ const Main = styled.main`
 `;
 
 const Content = styled.div`
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 `;
 
-const Buttons = styled.div`
-	display: flex;
-	justify-content: space-between;
-	margin-top: 64px;
-`;
-
 const App: React.FC = () => {
 	const [allShelters, setAllShelters] = useState<IShelter[]>([]);
-	const dispatch = useAppDispatch();
 	const activeStep = useAppSelector((state) => state.app.currentStep);
-	const canGoNext = useAppSelector(({ app }) => {
-		if (app.currentStep === 0) {
-			return (
-				!!app.selectedPrice &&
-				(app.helpType === EHelpType.SHELTER ? !!app.selectedShelter : true)
-			);
-		} else if (app.currentStep === 1) {
-			return true;
-		} else if (app.currentStep === 2) {
-			return true;
-		} else {
-			return false;
-		}
-	});
-	const canGoBack = useAppSelector((state) => state.app.currentStep > 0);
 
 	useEffect(() => {
 		api.v1
@@ -63,16 +42,9 @@ const App: React.FC = () => {
 				<Main>
 					<Content>
 						<Stepper stepCount={3} activeStep={activeStep} />
-						<FirstStep allShelters={allShelters} />
-						<Buttons>
-							{canGoBack ? <Button type="secondary" title="Späť" /> : <div />}
-							<Button
-								disabled={!canGoNext}
-								type="primary"
-								title="Pokračovať"
-								onClick={() => dispatch(nextStep({}))}
-							/>
-						</Buttons>
+						{activeStep === 0 && <FirstStep allShelters={allShelters} />}
+						{activeStep === 1 && <SecondStep />}
+						{activeStep === 2 && <ThirdStep />}
 					</Content>
 					<img
 						src="/dogmask.png"

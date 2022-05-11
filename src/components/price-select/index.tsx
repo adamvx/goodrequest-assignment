@@ -73,8 +73,9 @@ export const PriceSelect: React.FC<Props> = ({
 		<div>
 			<h5>Suma, ktorou chcem prispieť</h5>
 			<Container>
-				{prices.map((price) => (
+				{prices.map((price, key) => (
 					<Tag
+						key={key}
 						selected={selectedPrice?.id === price.id}
 						onClick={() => onPriceSelect(price)}
 					>

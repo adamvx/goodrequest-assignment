@@ -3,13 +3,15 @@ import {
 	PayloadAction,
 	SliceCaseReducers,
 } from "@reduxjs/toolkit";
-import { EHelpType, IPrice, IShelter } from "../../types";
+import { EHelpType, IPrice, IShelter, IUser } from "../../types";
 
 interface AppState {
 	currentStep: number;
 	helpType: EHelpType;
 	selectedShelter?: IShelter;
 	selectedPrice?: IPrice;
+	user?: IUser;
+	term?: boolean;
 }
 
 export const appSlice = createSlice<AppState, SliceCaseReducers<AppState>>({
@@ -17,8 +19,6 @@ export const appSlice = createSlice<AppState, SliceCaseReducers<AppState>>({
 	initialState: {
 		currentStep: 0,
 		helpType: EHelpType.SHELTER,
-		selectedShelter: undefined,
-		selectedPrice: undefined,
 	},
 	reducers: {
 		nextStep: (state) => {
@@ -40,10 +40,22 @@ export const appSlice = createSlice<AppState, SliceCaseReducers<AppState>>({
 		setPrice: (state, action: PayloadAction<IPrice>) => {
 			state.selectedPrice = action.payload;
 		},
+		setUser: (state, action: PayloadAction<IUser>) => {
+			state.user = action.payload;
+		},
+		setTerms: (state, action: PayloadAction<boolean>) => {
+			state.term = action.payload;
+		},
 	},
 });
 
-export const { nextStep, previousStep, setShelter, setHelpType, setPrice } =
-	appSlice.actions;
+export const {
+	nextStep,
+	previousStep,
+	setShelter,
+	setHelpType,
+	setPrice,
+	setUser,
+} = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

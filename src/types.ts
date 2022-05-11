@@ -13,3 +13,10 @@ export interface IPrice {
 	type: "static" | "custom";
 	price?: number;
 }
+
+export interface IUser {
+	firstName?: string;
+	lastName?: string;
+	email?: string;
+	phone?: string;
+}

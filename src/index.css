@@ -29,3 +29,8 @@ h5 {
 	line-height: 19px;
 	margin: 16px 0;
 }
+
+::placeholder {
+	color: #9f9f9f;
+	opacity: 1;
+}

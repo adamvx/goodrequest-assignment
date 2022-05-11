@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { setPrice, setShelter } from "../../../redux/slices/app";
-import { IShelter } from "../../../types";
+import { nextStep, setPrice, setShelter } from "../../../redux/slices/app";
+import { EHelpType, IShelter } from "../../../types";
+import { Button } from "../../button";
 import { Dropdown } from "../../dropdown";
 import { PriceSelect } from "../../price-select";
 import { ShelterSelector } from "../../shelter-selector";
@@ -17,11 +18,24 @@ const Container = styled.div`
 	gap: 16px;
 `;
 
+const ButtonHolder = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 64px;
+`;
+
 export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 	const dispatch = useAppDispatch();
 	const { selectedShelter, selectedPrice } = useAppSelector(
 		(state) => state.app
 	);
+
+	const canGoNext = useAppSelector(({ app }) => {
+		return (
+			!!app.selectedPrice &&
+			(app.helpType === EHelpType.SHELTER ? !!app.selectedShelter : true)
+		);
+	});
 
 	return (
 		<Container>
@@ -38,6 +52,14 @@ export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 				onPriceSelect={(val) => dispatch(setPrice(val))}
 				selectedPrice={selectedPrice}
 			/>
+			<ButtonHolder>
+				<Button
+					disabled={!canGoNext}
+					variant="primary"
+					title="Pokračovať"
+					onClick={() => dispatch(nextStep({}))}
+				/>
+			</ButtonHolder>
 		</Container>
 	);
 };

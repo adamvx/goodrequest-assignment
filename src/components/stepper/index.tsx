@@ -30,7 +30,7 @@ export const Stepper: React.FC<Props> = ({ stepCount, activeStep }) => {
 	return (
 		<StyledStepper>
 			{[...Array(stepCount)].map((_, i) => (
-				<StepItem active={i === activeStep} />
+				<StepItem key={i} active={i === activeStep} />
 			))}
 		</StyledStepper>
 	);
