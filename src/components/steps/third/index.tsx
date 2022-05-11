@@ -41,12 +41,12 @@ export const ThirdStep: React.FC<Props> = () => {
 
 	const onSend = () => {
 		const sendData = {
-			firstName: user?.firstName,
-			lastName: user?.lastName,
-			email: user?.email,
-			phone: user?.phone,
-			value: selectedPrice?.price,
-			shelterID: selectedShelter?.id,
+			firstName: user?.firstName || null,
+			lastName: user?.lastName || null,
+			email: user?.email || null,
+			phone: user?.phone || null,
+			value: selectedPrice?.price || null,
+			shelterID: helpType === EHelpType.NADATION ? null : selectedShelter?.id,
 		};
 		api.v1
 			.post<IApiPostResponse>("shelters/contribute", sendData)
@@ -62,9 +62,9 @@ export const ThirdStep: React.FC<Props> = () => {
 			<div>
 				<OptionHeading>Akou formou chcem pomôcť</OptionHeading>
 				<span>
-					{helpType === EHelpType.NADATION
-						? "Chcem finančne prispieť celej nadácii"
-						: "Chcem finančne prispieť konkrétnemu útulku"}
+					{helpType === EHelpType.SHELTER
+						? "Chcem finančne prispieť konkrétnemu útulku"
+						: "Chcem finančne prispieť celej nadácii"}
 				</span>
 			</div>
 			<div>
@@ -73,19 +73,19 @@ export const ThirdStep: React.FC<Props> = () => {
 			</div>
 			<div>
 				<OptionHeading>Suma ktorou chcem prispieť</OptionHeading>
-				<span>{`${selectedPrice?.price} €`}</span>
+				<span>{`${selectedPrice?.price || "-"} €`}</span>
 			</div>
 			<div>
 				<OptionHeading>Meno a priezvisko</OptionHeading>
-				<span>{`${user?.firstName} ${user?.lastName}`}</span>
+				<span>{`${user?.firstName || "-"} ${user?.lastName || "-"}`}</span>
 			</div>
 			<div>
 				<OptionHeading>E-mailová adresa</OptionHeading>
-				<span>{user?.email}</span>
+				<span>{user?.email || "-"}</span>
 			</div>
 			<div>
 				<OptionHeading>Telefónne číslo</OptionHeading>
-				<span>{user?.phone}</span>
+				<span>{user?.phone || "-"}</span>
 			</div>
 			<CheckboxContainer>
 				<Checkbox checked={terms} onClick={() => dispatch(setTerms(!terms))} />

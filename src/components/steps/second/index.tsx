@@ -1,12 +1,12 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
-import { Input } from "../../input";
 import * as Yup from "yup";
-import { Button } from "../../button";
-import { useAppDispatch } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { nextStep, previousStep, setUser } from "../../../redux/slices/app";
 import { IUser } from "../../../types";
+import { Button } from "../../button";
+import { Input } from "../../input";
 
 interface Props {}
 
@@ -25,7 +25,8 @@ const ButtonHolder = styled.div`
 const DonorInfoSchema = Yup.object().shape({
 	firstName: Yup.string()
 		.min(2, "Vaše meno je veľmi krátke.")
-		.max(30, "Vaše meno je veľmi dlhé."),
+		.max(30, "Vaše meno je veľmi dlhé.")
+		.required("Toto pole je povinné vyplniť."),
 	lastName: Yup.string()
 		.min(2, "Vaše priezvisko je veľmi krátke.")
 		.max(30, "Vaše priezvisko je veľmi dlhé.")
@@ -33,7 +34,7 @@ const DonorInfoSchema = Yup.object().shape({
 	email: Yup.string()
 		.email("Zadali ste nesprávny e-mail.")
 		.required("Toto pole je povinné vyplniť."),
-	phone: Yup.string().required("Toto pole je povinné vyplniť."),
+	phone: Yup.string(),
 });
 
 const Form = styled.form`
@@ -48,12 +49,14 @@ const FormTitle = styled.h5`
 
 export const SecondStep: React.FC<Props> = () => {
 	const dispatch = useAppDispatch();
+	const user = useAppSelector((state) => state.app.user);
+	const formRef = useRef<HTMLFormElement>(null);
 
 	const initialValues: IUser = {
-		firstName: "",
-		lastName: "",
-		email: "",
-		phone: "",
+		firstName: user?.firstName || "",
+		lastName: user?.lastName || "",
+		email: user?.email || "",
+		phone: user?.phone || "",
 	};
 
 	return (
@@ -78,7 +81,7 @@ export const SecondStep: React.FC<Props> = () => {
 					isValid,
 					dirty,
 				}) => (
-					<Form onSubmit={handleSubmit}>
+					<Form ref={formRef} onSubmit={handleSubmit}>
 						<Input
 							label="Meno"
 							placeholder="Zadajte Vaše meno"
