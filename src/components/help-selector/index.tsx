@@ -47,7 +47,7 @@ const IconHolder = styled.div`
 	background-color: rgba(47, 47, 47, 0.16);
 `;
 
-export const ShelterSelector: React.FC<Props> = () => {
+export const HelpSelector: React.FC<Props> = () => {
 	const { helpType } = useAppSelector((state) => state.app);
 	const dispatch = useAppDispatch();
 

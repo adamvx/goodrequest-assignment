@@ -6,7 +6,7 @@ import { EHelpType, IShelter } from "../../../types";
 import { Button } from "../../button";
 import { Dropdown } from "../../dropdown";
 import { PriceSelect } from "../../price-select";
-import { ShelterSelector } from "../../shelter-selector";
+import { HelpSelector } from "../../help-selector";
 
 interface Props {
 	allShelters: IShelter[];
@@ -26,7 +26,7 @@ const ButtonHolder = styled.div`
 
 export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 	const dispatch = useAppDispatch();
-	const { selectedShelter, selectedPrice } = useAppSelector(
+	const { selectedShelter, selectedPrice, helpType } = useAppSelector(
 		(state) => state.app
 	);
 
@@ -40,12 +40,15 @@ export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 	return (
 		<Container>
 			<h1>Vyberte si možnosť, ako chcete pomôcť</h1>
-			<ShelterSelector />
+			<HelpSelector />
 			<Dropdown
 				data={allShelters}
 				onSelect={(val) => dispatch(setShelter(val))}
 				selectedValue={selectedShelter}
 				placeholder={"Vyberte útulok zo zoznamu"}
+				dropdownTitle={"Útulok"}
+				title={"O projekte"}
+				required={helpType === EHelpType.SHELTER}
 			/>
 
 			<PriceSelect

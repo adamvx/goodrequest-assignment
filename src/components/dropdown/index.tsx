@@ -13,6 +13,9 @@ interface Props<T extends IDropdownData> {
 	onSelect: (item: T) => void;
 	selectedValue?: T;
 	placeholder?: string;
+	title: string;
+	dropdownTitle: string;
+	required?: boolean;
 }
 
 const Container = styled.div`
@@ -81,11 +84,26 @@ const DropdownListItem = styled.li`
 	}
 `;
 
+const TitleContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const NotRequiredLabel = styled.span`
+	font-size: 14;
+	font-weight: 800;
+	color: #2f2f2f;
+`;
+
 export const Dropdown = <T extends IDropdownData>({
 	data,
 	onSelect,
 	placeholder,
 	selectedValue,
+	dropdownTitle,
+	title,
+	required,
 }: Props<T>) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -93,11 +111,14 @@ export const Dropdown = <T extends IDropdownData>({
 
 	return (
 		<div>
-			<h5>O projekte</h5>
+			<TitleContainer>
+				<h5>{title}</h5>
+				{!required && <NotRequiredLabel>Nepovinné</NotRequiredLabel>}
+			</TitleContainer>
 			<Container onClick={toggle}>
 				<DropdownContainer>
 					<Content>
-						<Title>Útulok</Title>
+						<Title>{dropdownTitle}</Title>
 						<Value>{selectedValue?.name || placeholder}</Value>
 					</Content>
 					<FaChevronDown
