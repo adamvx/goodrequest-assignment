@@ -18,7 +18,7 @@ export const appSlice = createSlice<AppState, SliceCaseReducers<AppState>>({
 	name: "app",
 	initialState: {
 		currentStep: 0,
-		helpType: EHelpType.SHELTER,
+		helpType: EHelpType.NADATION,
 	},
 	reducers: {
 		nextStep: (state) => {
