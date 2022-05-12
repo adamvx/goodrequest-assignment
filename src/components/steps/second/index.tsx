@@ -1,5 +1,5 @@
-import { Formik } from "formik";
-import React, { useRef } from "react";
+import { useFormik } from "formik";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
@@ -50,98 +50,107 @@ const FormTitle = styled.h5`
 export const SecondStep: React.FC<Props> = () => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.app.user);
-	const formRef = useRef<HTMLFormElement>(null);
 
 	const initialValues: IUser = {
-		firstName: user?.firstName || "",
-		lastName: user?.lastName || "",
-		email: user?.email || "",
-		phone: user?.phone || "",
+		firstName: "",
+		lastName: "",
+		email: "",
+		phone: "",
 	};
+
+	const {
+		handleSubmit,
+		handleChange,
+		handleBlur,
+		setFieldValue,
+		validateForm,
+		values,
+		errors,
+		touched,
+		isValid,
+		dirty,
+	} = useFormik({
+		initialValues: initialValues,
+		validationSchema: DonorInfoSchema,
+		onSubmit: (values) => {
+			dispatch(setUser(values));
+			dispatch(nextStep({}));
+		},
+	});
+
+	useEffect(() => {
+		if (user) {
+			setFieldValue("firstName", user.firstName);
+			setFieldValue("lastName", user.lastName);
+			setFieldValue("email", user.email);
+			setFieldValue("phone", user.phone);
+			validateForm(user);
+		}
+	}, [user, setFieldValue, validateForm]);
 
 	return (
 		<Container>
 			<h1>Potrebujeme od Vás zopár informácií</h1>
 			<FormTitle>O vás</FormTitle>
-			<Formik
-				initialValues={initialValues}
-				validationSchema={DonorInfoSchema}
-				onSubmit={(values) => {
-					dispatch(setUser(values));
-					dispatch(nextStep({}));
-				}}
-			>
-				{({
-					values,
-					errors,
-					touched,
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					isValid,
-					dirty,
-				}) => (
-					<Form ref={formRef} onSubmit={handleSubmit}>
-						<Input
-							label="Meno"
-							placeholder="Zadajte Vaše meno"
-							type="text"
-							name="firstName"
-							onChange={handleChange}
-							onBlur={handleBlur}
-							value={values.firstName}
-							error={errors.firstName}
-							touched={touched.firstName}
-						/>
-						<Input
-							label="Priezvisko"
-							placeholder="Zadajte Vaše priezvisko"
-							type="text"
-							name="lastName"
-							onChange={handleChange}
-							onBlur={handleBlur}
-							value={values.lastName}
-							error={errors.lastName}
-							touched={touched.lastName}
-						/>
-						<Input
-							label="Email"
-							placeholder="Zadajte Váš e-mail"
-							type="email"
-							name="email"
-							onChange={handleChange}
-							onBlur={handleBlur}
-							value={values.email}
-							error={errors.email}
-							touched={touched.email}
-						/>
-						<Input
-							label="Telefónne číslo"
-							placeholder="+421"
-							type="text"
-							name="phone"
-							onChange={handleChange}
-							onBlur={handleBlur}
-							value={values.phone}
-							error={errors.phone}
-							touched={touched.phone}
-						/>
-						<ButtonHolder>
-							<Button
-								variant="secondary"
-								title="Späť"
-								onClick={() => dispatch(previousStep({}))}
-							/>
-							<Button
-								disabled={!(isValid && dirty)}
-								variant="primary"
-								type="submit"
-								title="Pokračovať"
-							/>
-						</ButtonHolder>
-					</Form>
-				)}
-			</Formik>
+			<Form onSubmit={handleSubmit}>
+				<Input
+					label="Meno"
+					placeholder="Zadajte Vaše meno"
+					type="text"
+					name="firstName"
+					onChange={handleChange}
+					onBlur={handleBlur}
+					value={values.firstName}
+					error={errors.firstName}
+					touched={touched.firstName}
+				/>
+				<Input
+					label="Priezvisko"
+					placeholder="Zadajte Vaše priezvisko"
+					type="text"
+					name="lastName"
+					onChange={handleChange}
+					onBlur={handleBlur}
+					value={values.lastName}
+					error={errors.lastName}
+					touched={touched.lastName}
+				/>
+				<Input
+					label="Email"
+					placeholder="Zadajte Váš e-mail"
+					type="email"
+					name="email"
+					onChange={handleChange}
+					onBlur={handleBlur}
+					value={values.email}
+					error={errors.email}
+					touched={touched.email}
+				/>
+				<Input
+					label="Telefónne číslo"
+					placeholder="+421"
+					type="text"
+					name="phone"
+					onChange={handleChange}
+					onBlur={handleBlur}
+					value={values.phone}
+					error={errors.phone}
+					touched={touched.phone}
+				/>
+				<ButtonHolder>
+					<Button
+						variant="secondary"
+						title="Späť"
+						onClick={() => dispatch(previousStep({}))}
+					/>
+					<Button
+						disabled={!(isValid && dirty)}
+						variant="primary"
+						type="submit"
+						title="Pokračovať"
+					/>
+				</ButtonHolder>
+			</Form>
 		</Container>
 	);
 };
