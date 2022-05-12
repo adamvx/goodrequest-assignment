@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { nextStep, setShelter } from "../../../redux/slices/app";
@@ -29,8 +29,6 @@ export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 	const { selectedShelter, helpType, selectedPrice } = useAppSelector(
 		(state) => state.app
 	);
-
-	console.log(selectedPrice);
 
 	const canGoNext = useAppSelector(({ app }) => {
 		return (
