@@ -9,7 +9,7 @@ const StyledFooter = styled.footer`
 	flex-direction: row;
 	border-top: 1px solid rgba(0, 0, 0, 0.08);
 	padding: 96px 0;
-	gap: 32px;
+	gap: 128px;
 
 	.footer {
 		&-list {
@@ -30,20 +30,12 @@ const Row = styled.div`
 	flex-direction: column;
 `;
 
-const LogoItem = styled.div`
-	display: flex;
-	align-items: center;
-`;
-
 export const Footer: React.FC<Props> = () => {
 	return (
 		<Wrapper>
 			<StyledFooter>
 				<Row>
-					<LogoItem>
-						<img className="footer-logo" src="/dog.svg" alt="" />
-						<h1 className="footer-name">Good boy</h1>
-					</LogoItem>
+					<img src="/logo.png" alt="" />
 				</Row>
 				<Row>
 					<h5>Nadácia Good boy</h5>
