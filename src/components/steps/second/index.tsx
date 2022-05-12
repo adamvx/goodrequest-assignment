@@ -34,7 +34,10 @@ const DonorInfoSchema = Yup.object().shape({
 	email: Yup.string()
 		.email("Zadali ste nesprávny e-mail.")
 		.required("Toto pole je povinné vyplniť."),
-	phone: Yup.string(),
+	phone: Yup.string().matches(
+		/^\+((421)|(420))[1-9][0-9]{2}[0-9]{3}[0-9]{3}$/,
+		"Zadajte telefónne číslo v medzinárodnom formáte"
+	),
 });
 
 const Form = styled.form`
