@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { nextStep, setPrice, setShelter } from "../../../redux/slices/app";
+import { nextStep, setShelter } from "../../../redux/slices/app";
 import { EHelpType, IShelter } from "../../../types";
 import { Button } from "../../button";
 import { Dropdown } from "../../dropdown";
-import { PriceSelect } from "../../price-select";
 import { HelpSelector } from "../../help-selector";
+import { PriceSelect } from "../../price-select";
 
 interface Props {
 	allShelters: IShelter[];
@@ -26,14 +26,19 @@ const ButtonHolder = styled.div`
 
 export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 	const dispatch = useAppDispatch();
-	const { selectedShelter, selectedPrice, helpType } = useAppSelector(
+	const { selectedShelter, helpType, selectedPrice } = useAppSelector(
 		(state) => state.app
 	);
+
+	console.log(selectedPrice);
 
 	const canGoNext = useAppSelector(({ app }) => {
 		return (
 			!!app.selectedPrice &&
-			(app.helpType === EHelpType.SHELTER ? !!app.selectedShelter : true)
+			(app.helpType === EHelpType.SHELTER ? !!app.selectedShelter : true) &&
+			(selectedPrice?.type === "custom"
+				? selectedPrice.value !== undefined
+				: true)
 		);
 	});
 
@@ -50,11 +55,7 @@ export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 				title={"O projekte"}
 				required={helpType === EHelpType.SHELTER}
 			/>
-
-			<PriceSelect
-				onPriceSelect={(val) => dispatch(setPrice(val))}
-				selectedPrice={selectedPrice}
-			/>
+			<PriceSelect />
 			<ButtonHolder>
 				<Button
 					disabled={!canGoNext}
