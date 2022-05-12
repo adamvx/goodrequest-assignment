@@ -18,6 +18,7 @@ const StepItem = styled.div<StepItemProps>(({ active }) => {
 		background: ${active
 			? "linear-gradient(90deg, #CD8A64, #C4794F);"
 			: "#9f9f9f"};
+		transition: width 200ms ease-out;
 	`;
 });
 

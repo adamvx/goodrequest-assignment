@@ -27,6 +27,7 @@ const Content = styled.div`
 
 const Image = styled.img`
 	object-fit: contain;
+	pointer-events: none;
 `;
 
 const App: React.FC = () => {
