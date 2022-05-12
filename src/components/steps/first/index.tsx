@@ -30,6 +30,8 @@ export const FirstStep: React.FC<Props> = ({ allShelters }) => {
 		(state) => state.app
 	);
 
+	console.log(selectedPrice);
+
 	const canGoNext = useAppSelector(({ app }) => {
 		return (
 			!!app.selectedPrice &&
