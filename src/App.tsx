@@ -33,7 +33,7 @@ const App: React.FC = () => {
 			.get<{ shelters: IShelter[] }>("shelters")
 			.then((res) => setAllShelters(res.data.shelters))
 			.catch(console.log);
-	});
+	}, []);
 
 	return (
 		<div>

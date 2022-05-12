@@ -45,7 +45,7 @@ export const ThirdStep: React.FC<Props> = () => {
 			lastName: user?.lastName || null,
 			email: user?.email || null,
 			phone: user?.phone || null,
-			value: selectedPrice?.price || null,
+			value: selectedPrice?.value || null,
 			shelterID: helpType === EHelpType.NADATION ? null : selectedShelter?.id,
 		};
 		api.v1
@@ -73,7 +73,7 @@ export const ThirdStep: React.FC<Props> = () => {
 			</div>
 			<div>
 				<OptionHeading>Suma ktorou chcem prispieť</OptionHeading>
-				<span>{`${selectedPrice?.price || "-"} €`}</span>
+				<span>{`${selectedPrice?.value || "-"} €`}</span>
 			</div>
 			<div>
 				<OptionHeading>Meno a priezvisko</OptionHeading>

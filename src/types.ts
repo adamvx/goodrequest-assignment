@@ -11,7 +11,7 @@ export interface IShelter {
 export interface IPrice {
 	id: number;
 	type: "static" | "custom";
-	price?: number;
+	value?: number;
 }
 
 export interface IUser {
