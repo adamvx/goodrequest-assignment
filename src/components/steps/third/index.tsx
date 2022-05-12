@@ -52,8 +52,11 @@ export const ThirdStep: React.FC<Props> = () => {
 			.post<IApiPostResponse>("shelters/contribute", sendData)
 			.then((res) => {
 				console.log(res);
+				alert("Formulár bol odoslaný");
 			})
-			.catch(console.log);
+			.catch(() => {
+				alert("Formulár sa nepodarilo odoslať");
+			});
 	};
 
 	return (
@@ -101,9 +104,7 @@ export const ThirdStep: React.FC<Props> = () => {
 					variant="primary"
 					disabled={!terms}
 					title="Odoslať formulár"
-					onClick={() => {
-						onSend();
-					}}
+					onClick={onSend}
 				/>
 			</ButtonHolder>
 		</Container>
