@@ -14,6 +14,7 @@ import { IShelter } from "./types";
 const Main = styled.main`
 	padding: 64px;
 	display: flex;
+	justify-content: flex-start;
 	gap: 64px;
 `;
 
@@ -22,6 +23,10 @@ const Content = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
+`;
+
+const Image = styled.img`
+	object-fit: contain;
 `;
 
 const App: React.FC = () => {
@@ -46,11 +51,9 @@ const App: React.FC = () => {
 						{activeStep === 1 && <SecondStep />}
 						{activeStep === 2 && <ThirdStep />}
 					</Content>
-					<img
-						src="/dogmask.png"
-						style={{ objectFit: "contain" }}
-						alt="Dog drinking water"
-					/>
+					<div>
+						<Image src="/dogmask.png" alt="Dog drinking water" />
+					</div>
 				</Main>
 			</Wrapper>
 			<Footer />
